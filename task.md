@@ -5,3 +5,5 @@
 класс Product метод getItemProduct и метод getServiesProduct
 
 паттерн Abstract Factory "Project-RedWhite\src\main\java\Factorys" есть две фабрики которые порождают европейские и азиатские алкогольные напитки. Пример использования можно увидеть в файлах в папки Stores "Project-RedWhite\src\main\java\Stores".
+
+паттерн Composite __!!!смотерть в ветке master!!!__ (я позже организую гит нормально)
