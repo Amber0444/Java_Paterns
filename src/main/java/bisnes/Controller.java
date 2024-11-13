@@ -1,5 +1,8 @@
 package bisnes;
 
+import Commands.BookingCommand;
+import Commands.Command;
+import Commands.CommandHistory;
 import MovieHouses.MovieHouse;
 import Movies.Movie;
 import Movies.Screening;
@@ -8,7 +11,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.Duration;
 
-public class flyweightUsage {
+public class Controller {
     public void booking() {
         MovieHouse coolMovieHouse = new MovieHouse();
         Movie movie = new Movie("Inglourious Basterds", Duration.parse("PT2H33M"));
@@ -20,6 +23,11 @@ public class flyweightUsage {
                 Time.valueOf("10:15:00"),
                 Date.valueOf("15:11:2024"));
 
-        screening.booking(10, 10);
+        Command command = new BookingCommand(screening);
+        CommandHistory commandHistory = new CommandHistory();
+
+        //Бронирование происходит через команды
+        command.execute(10, 10);
+        commandHistory.push(command);
     }
 }
