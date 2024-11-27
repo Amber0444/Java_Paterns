@@ -7,6 +7,8 @@ import MovieHouses.Seat;
 
 import java.sql.Date;
 import java.sql.Time;
+import org.apache.commons.lang3.SerializationUtils;
+
 
 public class Screening {
     private final Movie movie;
@@ -36,6 +38,10 @@ public class Screening {
         if (row < 0 || row > hall.getRow() || seat < 0 || seat >hall.getSeat())
             return;
         seatList[row][seat] = busySeat;
+    }
+
+    public Snapshot createSnapshot() {
+        return new Snapshot(movie, seatList.clone(), hall, time, date);
     }
 
     public Movie getMovie() {

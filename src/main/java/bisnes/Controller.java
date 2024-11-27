@@ -6,6 +6,7 @@ import Commands.CommandHistory;
 import MovieHouses.MovieHouse;
 import Movies.Movie;
 import Movies.Screening;
+import repositories.Repository;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -29,5 +30,9 @@ public class Controller {
         //Бронирование происходит через команды
         command.execute(10, 10);
         commandHistory.push(command);
+
+        //паттерн memento
+        Repository repository = new Repository();
+        repository.add(screening.createSnapshot());
     }
 }
