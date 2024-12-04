@@ -5,6 +5,7 @@ import Commands.Command;
 import Commands.CommandHistory;
 import MovieHouses.MovieHouse;
 import Movies.Movie;
+import Movies.OpenForBooking;
 import Movies.Screening;
 import repositories.Repository;
 
@@ -22,7 +23,8 @@ public class Controller {
         Screening screening = new Screening(movie,
                 coolMovieHouse.getHall(0),
                 Time.valueOf("10:15:00"),
-                Date.valueOf("15:11:2024"));
+                Date.valueOf("15:11:2024"),
+                new OpenForBooking());
 
         Command command = new BookingCommand(screening);
         CommandHistory commandHistory = new CommandHistory();
@@ -31,6 +33,10 @@ public class Controller {
         command.execute(10, 10);
         commandHistory.push(command);
 
+        //Когда показа закончиться статус изменитья
+        if (screening.getDate().after(new Date(System.currentTimeMillis()))) {
+            screening.changeStatus();
+        }
         //паттерн memento
         Repository repository = new Repository();
         repository.add(screening.createSnapshot());

@@ -16,15 +16,18 @@ public class Screening {
     private final Hall hall;
     private final Time time;
     private final Date date;
-    private final BusySeat busySeat = new BusySeat();
+    private Status status;
     private final FreeSeat freeSeat = new FreeSeat();
 
-    public Screening(Movie movie, Hall hall, Time time, Date date) {
+
+    public Screening(Movie movie, Hall hall, Time time, Date date, Status status) {
         this.movie = movie;
         this.hall = hall;
         this.time = time;
         this.date = date;
         this.seatList = new Seat[hall.getRow()][hall.getSeat()];
+        this.status = status;
+
 
         for(int i = 0; i < hall.getRow(); i++) {
             for(int j = 0; j < hall.getSeat(); j++) {
@@ -33,15 +36,22 @@ public class Screening {
         }
     }
 
-    //Паттерн flyWeight
+    //Паттерн State
+    //Бронирование зависит от status
     public void booking(int row, int seat) {
-        if (row < 0 || row > hall.getRow() || seat < 0 || seat >hall.getSeat())
-            return;
-        seatList[row][seat] = busySeat;
+        status.booking(row, seat, this);
     }
 
     public Snapshot createSnapshot() {
         return new Snapshot(movie, seatList.clone(), hall, time, date);
+    }
+
+    public void changeStatus() {
+        if (status instanceof ClosesForBooking) {
+            setStatus(new OpenForBooking());
+        } else {
+            setStatus(new ClosesForBooking());
+        }
     }
 
     public Movie getMovie() {
@@ -62,5 +72,13 @@ public class Screening {
 
     public Date getDate() {
         return date;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }
