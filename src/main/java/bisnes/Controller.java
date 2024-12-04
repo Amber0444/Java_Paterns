@@ -4,6 +4,7 @@ import Commands.BookingCommand;
 import Commands.Command;
 import Commands.CommandHistory;
 import MovieHouses.MovieHouse;
+import Movies.ClosesForBooking;
 import Movies.Movie;
 import Movies.OpenForBooking;
 import Movies.Screening;
@@ -33,10 +34,9 @@ public class Controller {
         command.execute(10, 10);
         commandHistory.push(command);
 
-        //Когда показа закончиться статус изменитья
-        if (screening.getDate().after(new Date(System.currentTimeMillis()))) {
-            screening.changeStatus();
-        }
+        //Статус меняется в клиентском классе
+        screening.setStatus(new ClosesForBooking());
+
         //паттерн memento
         Repository repository = new Repository();
         repository.add(screening.createSnapshot());

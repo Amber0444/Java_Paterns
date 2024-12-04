@@ -46,14 +46,6 @@ public class Screening {
         return new Snapshot(movie, seatList.clone(), hall, time, date);
     }
 
-    public void changeStatus() {
-        if (status instanceof ClosesForBooking) {
-            setStatus(new OpenForBooking());
-        } else {
-            setStatus(new ClosesForBooking());
-        }
-    }
-
     public Movie getMovie() {
         return movie;
     }
